@@ -1,15 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
+  Alert,
+  Button,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -26,89 +19,81 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import FantasyIcon from './components/FantasyIcon/FantasyIcon';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
+  const safeAreaStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const randomizerButtonStyles = {
+    ...styles.randomizerButtonBase,
+    ...styles.buttonShadow,
+  };
+  const settingsButtonStyles = {
+    ...styles.settingsButtonBase,
+    ...styles.buttonShadow,
+  };
+
+  const generate = () => {
+    Alert.alert('Personagem gerado');
+  };
+
+  const settings = () => {
+    Alert.alert('Opções');
+  };
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <View style={styles.background}>
+        <Pressable onPress={generate} style={randomizerButtonStyles}>
+          <FantasyIcon name="wizard" size={120} color={'#7a0000'} />
+        </Pressable>
+        <Pressable onPress={settings} style={settingsButtonStyles}>
+          <Text>Opções</Text>
+        </Pressable>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  background: {
+    backgroundColor: '#D5D9A0',
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: '35%',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  randomizerButtonBase: {
+    backgroundColor: '#D5D9A0',
+    width: '60%',
+    aspectRatio: 1,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  settingsButtonBase: {
+    backgroundColor: '#fff',
+    padding: 12,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  highlight: {
-    fontWeight: '700',
+
+  buttonShadow: {
+    //ios
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    //android
+    elevation: 12,
   },
 });
 
