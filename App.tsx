@@ -1,59 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
-  Button,
   Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
+  Modal,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import FantasyIcon from './components/FantasyIcon/FantasyIcon';
+import FantasyModal from './components/FantasyModal/FantasyModal';
+import RandomizerButton from './components/RandomizerButton/RandomizerButton';
+import SettingsButton from './components/SettingsButton/SettingsButton';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const safeAreaStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const randomizerButtonStyles = {
-    ...styles.randomizerButtonBase,
-    ...styles.buttonShadow,
-  };
-  const settingsButtonStyles = {
-    ...styles.settingsButtonBase,
-    ...styles.buttonShadow,
-  };
+  const [modalVisible, setModalVisible] = useState(false);
 
   const generate = () => {
     Alert.alert('Personagem gerado');
   };
 
-  const settings = () => {
-    Alert.alert('Opções');
-  };
-
   return (
     <>
       <View style={styles.background}>
-        <Pressable onPress={generate} style={randomizerButtonStyles}>
-          <FantasyIcon name="wizard" size={120} color={'#7a0000'} />
-        </Pressable>
-        <Pressable onPress={settings} style={settingsButtonStyles}>
-          <Text>Opções</Text>
-        </Pressable>
+        <FantasyModal visible={modalVisible}>
+          <Text style={styles.modalText}>Opções</Text>
+        </FantasyModal>
+
+        {/* <Modal
+          animationType="slide"
+          transparent
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Pressable
+                style={styles.buttonClose}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.modalText}>x</Text>
+              </Pressable>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalText}>Opções</Text>
+              </View>
+            </View>
+          </View>
+        </Modal> */}
+
+        <RandomizerButton onPress={generate} />
+        <SettingsButton onPress={() => setModalVisible(true)} />
       </View>
     </>
   );
@@ -61,39 +58,52 @@ const App = () => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#D5D9A0',
+    // backgroundColor: '#D5D9A0',
+    backgroundColor: '#B39A7B',
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: '35%',
   },
-  randomizerButtonBase: {
-    backgroundColor: '#D5D9A0',
-    width: '60%',
-    aspectRatio: 1,
-    borderRadius: 999,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  settingsButtonBase: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 
-  buttonShadow: {
-    //ios
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    borderRadius: 20,
+
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 2,
     },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    //android
-    elevation: 12,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    backgroundColor: '#7a0000',
+    borderWidth: 4,
+    borderColor: '#424242',
+  },
+  modalContent: {
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+
+  buttonClose: {
+    alignSelf: 'flex-end',
+    paddingEnd: 10,
+  },
+
+  modalText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
 
